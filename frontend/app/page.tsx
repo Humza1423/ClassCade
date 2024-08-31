@@ -3,15 +3,8 @@
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { useEffect, useState } from 'react';
 import styles from './page.module.css';
-
-interface ClassCade {
-  id: number;
-  name: string;
-  teachers: string;
-  subject: string;
-  room: string;
-  css_styles: string;
-}
+import Link from 'next/link';
+import { ClassCade } from '@/lib/utils';
 
 export default function Home() {
   const { user, isLoading } = useUser();
@@ -54,6 +47,7 @@ export default function Home() {
   
 
   if (isLoading) return <div>Loading...</div>;
+  if (!classCadesAsTch || !classCadesAsStd) return <div>Loading ClassCades...</div>;
 
   return (
     <main className={styles.main}>
@@ -61,17 +55,35 @@ export default function Home() {
         <a href="/api/auth/login">Sign in to ClassCade</a>
       ) : (
         <div>
+          <h3>Teaching</h3>
           {classCadesAsTch && classCadesAsTch.map((classCade) => (
+            <Link href={`/teaching/${classCade.id}`}>
             <div
               key={classCade.id}
               style={{ backgroundColor: classCade.css_styles }}
               className={styles.classcade}
             >
               <h2>{classCade.name}</h2>
-              <p>Teachers: {classCade.teachers}</p>
+              <p>Teachers: {classCade.teacher_ids}</p>
               <p>Subject: {classCade.subject}</p>
               <p>Room: {classCade.room}</p>
             </div>
+            </Link>
+          ))}
+          <h3>Enrolled</h3>
+          {classCadesAsStd && classCadesAsStd.map((classCade) => (
+            <Link href={`/enrolled/${classCade.id}`}>
+              <div
+              key={classCade.id}
+              style={{ backgroundColor: classCade.css_styles }}
+              className={styles.classcade}
+            >
+              <h2>{classCade.name}</h2>
+              <p>Teachers: {classCade.teacher_ids}</p>
+              <p>Subject: {classCade.subject}</p>
+              <p>Room: {classCade.room}</p>
+            </div>
+            </Link>
           ))}
         </div>
       )}
