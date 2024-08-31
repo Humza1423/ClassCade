@@ -2,8 +2,9 @@ import pygame
 from random import randint
 
 class Fighter():
-    def __init__(self, player, x, y, flip, data, sprite_sheet, animation_steps, sound):
+    def __init__(self, player, x, y, flip, data, sprite_sheet, animation_steps, sound, dmg, health, speed):
         self.player = player
+        self.dmg = dmg
         self.size = data[0]
         self.image_scale = data[1]
         self.offset = data[2]
@@ -27,7 +28,8 @@ class Fighter():
         self.defending = False
         self.hit = False
         self.alive = True
-        self.health = 100
+        self.health = health
+        self.speed = speed
 
     def load_images(self, sprite_sheet, animation_steps):
         # extract images from spritesheet
@@ -42,7 +44,6 @@ class Fighter():
 
     def move(self, screen_width, screen_height, target):
         gravity = 2
-        speed = 10
         dx = 0
         dy = 0
         self.running = False
@@ -58,10 +59,10 @@ class Fighter():
             if self.player == 1:
                 # movement
                 if key[pygame.K_a]:
-                    dx = -speed
+                    dx = -self.speed
                     self.running = True
                 if key[pygame.K_d]:
-                    dx = speed
+                    dx = self.speed
                     self.running = True
                 # jumping
                 if key[pygame.K_w] and self.jump == False:
@@ -79,10 +80,10 @@ class Fighter():
             if self.player == 2:
                 # movement
                 if key[pygame.K_LEFT]:
-                    dx = -speed
+                    dx = -self.speed
                     self.running = True
                 if key[pygame.K_RIGHT]:
-                    dx = speed
+                    dx = self.speed
                     self.running = True
                 # jumping
                 if key[pygame.K_UP] and self.jump == False:
@@ -192,7 +193,7 @@ class Fighter():
             self.attack_sound.play()
             attacking_rect = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y, 2 * self.rect.width, self.rect.height)
             if attacking_rect.colliderect(target.rect):
-                target.health -= 10
+                target.health -= self.dmg
                 target.hit = True
 
     # def attack(self, target, attack_type):
