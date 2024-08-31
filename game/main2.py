@@ -195,81 +195,81 @@ while run:
     if intro_count <= 0:
 
         # move fighters
-        if turn == 1:
-            if plyr1_action == '':
-                draw_text("Player 1's Turn. Pick a move!", turn_font, blue, 220, 50)
-                action_attack_btn.draw(screen)
-                action_defend_btn.draw(screen)
-                plyr1_action_heal_btn.draw(screen)
-                for event in pygame.event.get():
-                    if event.type == pygame.MOUSEBUTTONUP:
-                        if action_attack_btn.main_body.collidepoint(event.pos):
-                            plyr1_action = 'attack'
-                        if action_defend_btn.main_body.collidepoint(event.pos):
-                            plyr1_action = 'defend'
-                        if plyr1_action_heal_btn.main_body.collidepoint(event.pos):
-                            if plyr1_potions > 0:
-                                Fighter1.health += 10
-                                plyr1_potions -= 1
-                                turn = 2
-                                plyr1_action = ''
+        # if turn == 1:
+        #     if plyr1_action == '':
+        #         draw_text("Player 1's Turn. Pick a move!", turn_font, blue, 220, 50)
+        #         action_attack_btn.draw(screen)
+        #         action_defend_btn.draw(screen)
+        #         plyr1_action_heal_btn.draw(screen)
+        #         for event in pygame.event.get():
+        #             if event.type == pygame.MOUSEBUTTONUP:
+        #                 if action_attack_btn.main_body.collidepoint(event.pos):
+        #                     plyr1_action = 'attack'
+        #                 if action_defend_btn.main_body.collidepoint(event.pos):
+        #                     plyr1_action = 'defend'
+        #                 if plyr1_action_heal_btn.main_body.collidepoint(event.pos):
+        #                     if plyr1_potions > 0:
+        #                         Fighter1.health += 10
+        #                         plyr1_potions -= 1
+        #                         turn = 2
+        #                         plyr1_action = ''
                 # if action_defend_btn.clicked:
                 #     plyr1_action = 'defend'
                 # if plyr1_action_heal_btn.clicked:
                 #     plyr1_action = 'heal'
                 # if action_attack_btn.clicked:
                     
-            if plyr1_action == 'defend':
-                Fighter1.move(screen_width, screen_height, Fighter2, 'defend', 1)
-                turn = 2
-                plyr1_action = ''
-            elif plyr1_action == 'attack':
-                attack1_btn.draw(screen)
-                attack2_btn.draw(screen)
-                for event in pygame.event.get():
-                    if event.type == pygame.MOUSEBUTTONUP:
-                        if attack1_btn.main_body.collidepoint(event.pos):
-                            Fighter1.move(screen_width, screen_height, Fighter2, 'attack', 1)
-                            blood.reset()
-                            blood.animate = True
-                            blood_x = Fighter2.rect.x
-                            blood_y = Fighter2.rect.y
+            # if plyr1_action == 'defend':
+            #     Fighter1.move(screen_width, screen_height, Fighter2)
+            #     turn = 2
+            #     plyr1_action = ''
+            # elif plyr1_action == 'attack':
+            #     attack1_btn.draw(screen)
+            #     attack2_btn.draw(screen)
+            #     for event in pygame.event.get():
+            #         if event.type == pygame.MOUSEBUTTONUP:
+            #             if attack1_btn.main_body.collidepoint(event.pos):
+            #                 Fighter1.move(screen_width, screen_height, Fighter2)
+            #                 blood.reset()
+            #                 blood.animate = True
+            #                 blood_x = Fighter2.rect.x
+            #                 blood_y = Fighter2.rect.y
 
-                            turn = 2
-                            plyr1_action = ''
-                        if attack2_btn.main_body.collidepoint(event.pos):
-                            Fighter1.move(screen_width, screen_height, Fighter2, 'attack', 2)
-                            double_animate = 1
-                            blood.reset()
-                            damage.reset()
-                            blood_x = Fighter2.rect.x
-                            blood_y = Fighter2.rect.y
-                            damage_x = Fighter2.rect.x
-                            damage_y = Fighter2.rect.y
-                            last_time = pygame.time.get_ticks()
+            #                 turn = 2
+            #                 plyr1_action = ''
+            #             if attack2_btn.main_body.collidepoint(event.pos):
+            #                 Fighter1.move(screen_width, screen_height, Fighter2)
+            #                 double_animate = 1
+            #                 blood.reset()
+            #                 damage.reset()
+            #                 blood_x = Fighter2.rect.x
+            #                 blood_y = Fighter2.rect.y
+            #                 damage_x = Fighter2.rect.x
+            #                 damage_y = Fighter2.rect.y
+            #                 last_time = pygame.time.get_ticks()
 
-                            turn = 2
-                            plyr1_action = ''
+            #                 turn = 2
+            #                 plyr1_action = ''
                     
-        if turn == 2:
-            if plyr2_action == '':
-                draw_text("Player 2's Turn. Pick a move!", turn_font, blue, 220, 50)
-                action_attack_btn.draw(screen)
-                action_defend_btn.draw(screen)
-                plyr2_action_heal_btn.draw(screen)
-                for event in pygame.event.get():
-                    if event.type == pygame.MOUSEBUTTONUP:
-                        if action_attack_btn.main_body.collidepoint(event.pos):
-                            plyr2_action = 'attack'
-                        if action_defend_btn.main_body.collidepoint(event.pos):
-                            plyr2_action = 'defend'
-                        if plyr2_action_heal_btn.main_body.collidepoint(event.pos):
-                            if plyr2_potions > 0:
-                                Fighter2.health += 10
-                                plyr2_potions -= 1
-                                turn = 1
-                                plyr2_action = ''
-                                plyr2_action_heal_btn = Button((255, 90, 0), red, screen_width/3 - 20, 90, screen_width/3, 490, f'heal ({plyr2_potions} left)', 20, yellow, 10, "assets/fonts/turok.ttf")
+        # if turn == 2:
+        #     if plyr2_action == '':
+        #         draw_text("Player 2's Turn. Pick a move!", turn_font, blue, 220, 50)
+        #         action_attack_btn.draw(screen)
+        #         action_defend_btn.draw(screen)
+        #         plyr2_action_heal_btn.draw(screen)
+        #         for event in pygame.event.get():
+        #             if event.type == pygame.MOUSEBUTTONUP:
+        #                 if action_attack_btn.main_body.collidepoint(event.pos):
+        #                     plyr2_action = 'attack'
+        #                 if action_defend_btn.main_body.collidepoint(event.pos):
+        #                     plyr2_action = 'defend'
+        #                 if plyr2_action_heal_btn.main_body.collidepoint(event.pos):
+        #                     if plyr2_potions > 0:
+        #                         Fighter2.health += 10
+        #                         plyr2_potions -= 1
+        #                         turn = 1
+        #                         plyr2_action = ''
+        #                         plyr2_action_heal_btn = Button((255, 90, 0), red, screen_width/3 - 20, 90, screen_width/3, 490, f'heal ({plyr2_potions} left)', 20, yellow, 10, "assets/fonts/turok.ttf")
 
                 # if action_defend_btn.clicked:
                     
@@ -277,35 +277,35 @@ while run:
                     
                 # if action_attack_btn.clicked:
                     
-            elif plyr2_action == 'defend':
-                Fighter2.move(screen_width, screen_height, Fighter1, 'defend', 1)
-                turn = 1
-                plyr2_action = ''
-            elif plyr2_action == 'attack':
-                attack1_btn.draw(screen)
-                attack2_btn.draw(screen)
-                for event in pygame.event.get():
-                    if event.type == pygame.MOUSEBUTTONUP:
-                        if attack1_btn.main_body.collidepoint(event.pos):
-                            blood.reset()
-                            blood.animate = True
-                            blood_x = Fighter1.rect.x
-                            blood_y = Fighter1.rect.y
+            # elif plyr2_action == 'defend':
+            #     Fighter2.move(screen_width, screen_height, Fighter1)
+            #     turn = 1
+            #     plyr2_action = ''
+            # elif plyr2_action == 'attack':
+            #     attack1_btn.draw(screen)
+            #     attack2_btn.draw(screen)
+            #     for event in pygame.event.get():
+            #         if event.type == pygame.MOUSEBUTTONUP:
+            #             if attack1_btn.main_body.collidepoint(event.pos):
+            #                 blood.reset()
+            #                 blood.animate = True
+            #                 blood_x = Fighter1.rect.x
+            #                 blood_y = Fighter1.rect.y
 
-                            turn = 1
-                            plyr2_action = ''
-                        if attack2_btn.main_body.collidepoint(event.pos):
-                            double_animate = 1
-                            blood.reset()
-                            damage.reset()
-                            blood_x = Fighter1.rect.x
-                            blood_y = Fighter1.rect.y
-                            damage_x = Fighter1.rect.x
-                            damage_y = Fighter1.rect.y
-                            last_time = pygame.time.get_ticks()
+            #                 turn = 1
+            #                 plyr2_action = ''
+            #             if attack2_btn.main_body.collidepoint(event.pos):
+            #                 double_animate = 1
+            #                 blood.reset()
+            #                 damage.reset()
+            #                 blood_x = Fighter1.rect.x
+            #                 blood_y = Fighter1.rect.y
+            #                 damage_x = Fighter1.rect.x
+            #                 damage_y = Fighter1.rect.y
+            #                 last_time = pygame.time.get_ticks()
 
-                            turn = 1
-                            plyr2_action = ''
+            #                 turn = 1
+            #                 plyr2_action = ''
 
         Fighter1.move(screen_width, screen_height, Fighter2)
         Fighter2.move(screen_width, screen_height, Fighter1)

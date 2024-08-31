@@ -81,6 +81,18 @@ const page = () => {
                     </ul>
                 </div>
             }
+            {tab === "material" && ClassCadeState && 
+                <div>
+                    <h2>Teachers</h2>
+                    <ul>
+                        {ClassCadeState.teacher_ids.split(',').map((teacher) => <li>{teacher}</li>)}
+                    </ul>
+                    <h2>Students</h2>
+                    <ul>
+                        {ClassCadeState.student_ids.split(',').map((student) => <li>{student}</li>)}
+                    </ul>
+                </div>
+            }
         </div>
     </main>
   )
