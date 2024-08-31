@@ -7,14 +7,16 @@ export async function POST(request: Request) {
     try {
         // Query for ClassCades where the user is a teacher
         const [classCadesAsTeacher] = await db.query(
-            `SELECT * FROM ClassCades WHERE FIND_IN_SET(?, teacher_ids)`,
+            `SELECT * FROM ClassCades
+            WHERE FIND_IN_SET(?, REPLACE(teacher_ids, ' ', '')) > 0`,
             [user]
         );
         console.log(classCadesAsTeacher);
 
         // Query for ClassCades where the user is a student
         const [classCadesAsStudent] = await db.query(
-            `SELECT * FROM ClassCades WHERE FIND_IN_SET(?, student_ids)`,
+            `SELECT * FROM ClassCades
+            WHERE FIND_IN_SET(?, REPLACE(student_ids, ' ', '')) > 0`,
             [user]
         );
         console.log(classCadesAsStudent);
