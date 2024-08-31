@@ -16,7 +16,7 @@ const AccountProfile:React.FC<Props> = ({styles}) => {
     <>  
         {useUser().user ? 
         <div>
-            <NavBar items={[{ Link: "/", Name: "Home" }, { Link: "/profile", Name: "My Profile" }]} ContainerStyles={styles.MainNav} TextStyles={styles.MainNavText}/>
+            <NavBar items={[{ Link: "/", Name: "Home" }, { Link: "/profile", Name: "My Profile" }, {Link: "/CreateClassCade", Name: "Create Classroom"}]} ContainerStyles={styles.MainNav} TextStyles={styles.MainNavText}/>
             <a href="/api/auth/logout">Logout of ClassCade</a>
         </div>
         : 

@@ -1,10 +1,23 @@
 from flask import Flask, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+from flask_cors import CORS
+import google.generativeai as genai # Use this for the AI
+import json
 
 app = Flask(__name__)
 
 @app.route('/')
 def home():
     return "Welcome to the ClassCade Education Backend!"
+
+@app.route('/create_classroom', methods=['POST'])
+def create_classroom():
+    data = request.json
+
+@app.route('/edit_classroom/<str:action>', methods=['POST'])
+def create_classroom():
+    data = request.json
 
 @app.route('/generate-quiz', methods=['POST'])
 def generate_quiz():
@@ -24,4 +37,6 @@ def generate_questions(text):
     return [f"Generated question from: {text}"]
 
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
