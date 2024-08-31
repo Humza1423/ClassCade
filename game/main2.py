@@ -55,7 +55,7 @@ wizard_data = [wizard_size, wizard_scale, wizard_offset]
 
 pygame.mixer.music.load('assets/audio/musicop.mp3')
 pygame.mixer.music.set_volume(0.5)
-pygame.mixer.music.play(-1, 0.0, 5000)
+# pygame.mixer.music.play(-1, 0.0, 5000)
 
 sword_fx = pygame.mixer.Sound('assets/audio/sword.wav')
 sword_fx.set_volume(0.5)
@@ -287,7 +287,6 @@ while run:
                 for event in pygame.event.get():
                     if event.type == pygame.MOUSEBUTTONUP:
                         if attack1_btn.main_body.collidepoint(event.pos):
-                            Fighter2.move(screen_width, screen_height, Fighter1, 'attack', 1)
                             blood.reset()
                             blood.animate = True
                             blood_x = Fighter1.rect.x
@@ -296,7 +295,6 @@ while run:
                             turn = 1
                             plyr2_action = ''
                         if attack2_btn.main_body.collidepoint(event.pos):
-                            Fighter2.move(screen_width, screen_height, Fighter1, 'attack', 2)
                             double_animate = 1
                             blood.reset()
                             damage.reset()
@@ -308,18 +306,9 @@ while run:
 
                             turn = 1
                             plyr2_action = ''
-                # if attack1_btn.clicked:
-                #     print('trueee')
-                #     Fighter2.move(screen_width, screen_height, Fighter1, 'attack', 1)
-                #     turn = 1
-                # if attack2_btn.clicked:
-                #     Fighter2.move(screen_width, screen_height, Fighter1, 'attack', 2)
-                #     turn = 1
-                
 
-
-        Fighter1.move(screen_width, screen_height, Fighter2, 'None', 1)
-        Fighter2.move(screen_width, screen_height, Fighter1, 'None', 2)
+        Fighter1.move(screen_width, screen_height, Fighter2)
+        Fighter2.move(screen_width, screen_height, Fighter1)
     else:
         # display count timer
         draw_text(str(intro_count), count_font, red, screen_width/2, screen_height/3)
