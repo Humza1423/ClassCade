@@ -16,7 +16,7 @@ export async function GET(request: Request, context: { params: { id: number } })
 
         try {
             // Query for ClassCadeMaterials where the user is a teacher
-            const [classCadeMaterial] = await db.query(`SELECT * FROM CourseMaterial
+            const [classCadeMaterial] = await db.query(`SELECT * FROM ClassCadeMaterial
         WHERE classcade_id = ${id};`);
 
             console.log(classCadeMaterial);

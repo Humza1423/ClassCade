@@ -7,6 +7,10 @@ import { ClassCadeMaterial } from '@/lib/utils';
 import { useParams } from "next/navigation";
 import styles from './teaching.module.css';
 
+const Material = ({ ClassCadeMaterialState }: { ClassCadeMaterialState: ClassCadeMaterial[] | null}) => {
+    return ClassCadeMaterialState? <div>{ClassCadeMaterialState.map((material) => <div><h3>{material.title}</h3><h6>{material.date_created}</h6><p>{material.description}</p><p>{material.links}</p></div>)}</div> : <div><h4>No material</h4></div>
+}
+
 const page = () => {
     const params = useParams();
     const { user, isLoading } = useUser();
@@ -54,8 +58,8 @@ const page = () => {
             <button onClick={() => setTab('people')}>People</button>
             <button onClick={() => setTab('material')}>Materials/Assessments</button>
         </nav>
-        <div>
-            {tab === "classroom" && ClassCadeState && 
+        {tab === "classroom" && ClassCadeState && 
+            <div>
                 <div
                 key={ClassCadeState.id}
                 style={{ backgroundColor: ClassCadeState.css_styles }}
@@ -66,34 +70,30 @@ const page = () => {
                 <p>Subject: {ClassCadeState.subject}</p>
                 <p>Room: {ClassCadeState.room}</p>
                 </div>
-            }
-        </div>
-        <div>
-            {tab === "people" && ClassCadeState && 
-                <div>
-                    <h2>Teachers</h2>
-                    <ul>
-                        {ClassCadeState.teacher_ids.split(',').map((teacher) => <li>{teacher}</li>)}
-                    </ul>
-                    <h2>Students</h2>
-                    <ul>
-                        {ClassCadeState.student_ids.split(',').map((student) => <li>{student}</li>)}
-                    </ul>
-                </div>
-            }
-            {tab === "material" && ClassCadeState && 
-                <div>
-                    <h2>Teachers</h2>
-                    <ul>
-                        {ClassCadeState.teacher_ids.split(',').map((teacher) => <li>{teacher}</li>)}
-                    </ul>
-                    <h2>Students</h2>
-                    <ul>
-                        {ClassCadeState.student_ids.split(',').map((student) => <li>{student}</li>)}
-                    </ul>
-                </div>
-            }
-        </div>
+                <input type="text" placeholder='Add Comment'/>
+                <form action={`/api/new_material/${id}`} method='POST'>
+                    <input type="text" placeholder='Title' name='Title'/>
+                    <textarea placeholder='Description' name='Description'/>
+                    <input type="text" placeholder='Links' name='Links'/>
+                    <input type="submit" value="Add Material"/>
+                </form>
+                <Material ClassCadeMaterialState={ClassCadeMaterialState}/>
+            </div>
+        }
+    
+        {tab === "people" && ClassCadeState && 
+            <div>
+                <h2>Teachers</h2>
+                <ul>
+                    {ClassCadeState.teacher_ids.split(',').map((teacher) => <li>{teacher}</li>)}
+                </ul>
+                <h2>Students</h2>
+                <ul>
+                    {ClassCadeState.student_ids.split(',').map((student) => <li>{student}</li>)}
+                </ul>
+            </div>
+        }
+        {tab === "material" && <Material ClassCadeMaterialState={ClassCadeMaterialState}/>}
     </main>
   )
 }
