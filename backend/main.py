@@ -5,6 +5,8 @@ from flask_cors import CORS
 import google.generativeai as genai # Use this for the AI
 import json
 import requests
+import subprocess
+import os
 
 app = Flask(__name__)
 
@@ -36,9 +38,16 @@ def home():
 def create_classroom():
     data = request.json
 
-@app.route('/edit_classroom/<str:action>', methods=['POST'])
-def create_classroom():
+@app.route('/edit_classroom/<string:action>', methods=['POST'])
+def edit_classroom():
     data = request.json
+
+@app.route('/run_game', methods=['GET', 'POST'])
+def launch_game():
+    script_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'game', 'main2.py'))
+    result = subprocess.run(['python', script_path], capture_output=True, text=True)
+    return f"Script output:\n{result.stdout}"
+
 
 @app.route('/generate-quiz', methods=['POST'])
 def generate_quiz():
