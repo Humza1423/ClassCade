@@ -1,23 +1,10 @@
 import { NextResponse } from 'next/server';
 import db from '../../../lib/db';
 
-export async function GET(request: Request) {
-const { user } = await request.json()
-  try {
-    const classCadesAsTeacher = await db.query(`SELECT * FROM ClassCades WHERE teacher_ids LIKE '%{$needle}%'`);
-    console.log(classCadesAsTeacher)
-    const classCadesAsStudent = await db.query(`SELECT * FROM ClassCades WHERE student_ids LIKE '%{$needle}%'`);
-    console.log(classCadesAsStudent)
-    return NextResponse.json({classCadesAsTeacher, classCadesAsStudent});
-  } catch (error) {
-    console.log(error)
-    return NextResponse.json({ error: 'Failed to fetch ClassCades' }, { status: 500 });
-  }
-}
-
 export async function POST(request: Request) {
-  const { name, teachers, students, subject, room, color } = await request.json();
+  const { user, name, teachers, students, subject, room, color } = await request.json();
 
+  teachers.push(user)
   const teachersStr = teachers.map((teacher: string) => teacher.replace(/'/g, "''")).join(', ');
   const studentsStr = students ? students.map((student: string) => student.replace(/'/g, "''")).join(', ') : null;
 

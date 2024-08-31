@@ -51,26 +51,46 @@ export default function CreateClassCade() {
         }
     }
     const handleSubmit = async (e: React.FormEvent) => {
-        if (user.email) {
-            e.preventDefault();
-        if (!teachers.includes(user.email)) setTeachers([...teachers, user.email])
-        try {
-          await setTeachers(teachers.filter(async teacher => emailExists(teacher, (arg) => {console.log(arg)})))
-          await setStudents(students.filter(async student => emailExists(student, (arg) => {console.log(arg)})))
-        await fetch('/api/classcades', {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ name, teachers, students, subject, room, color }),
-        });
-        alert('ClassCade created successfully');
-        } catch (error) {
-        console.error('Failed to create ClassCade:', error);
-        alert('Failed to create ClassCade');
-        }
-        }
-    };
+      e.preventDefault();
+          try {
+              // Check email existence for teachers and students
+              const teachersValidation = await Promise.all(
+                  teachers.map(async (teacher) => {
+                      const exists = await emailExists(teacher, () => {});
+                      return exists ? teacher : null;
+                  })
+              );
+  
+              const studentsValidation = await Promise.all(
+                  students.map(async (student) => {
+                      const exists = await emailExists(student, () => {});
+                      return exists ? student : null;
+                  })
+              );
+  
+              // Filter out null values
+              const validTeachers = teachersValidation.filter(Boolean) as string[];
+              const validStudents = studentsValidation.filter(Boolean) as string[];
+  
+              // Update state with valid teachers and students
+              setTeachers(validTeachers);
+              setStudents(validStudents);
+  
+              // Submit form data
+              await fetch('/api/classcades', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({ user: user.email, name, teachers: validTeachers, students: validStudents, subject, room, color }),
+              });
+              alert('ClassCade created successfully');
+          } catch (error) {
+              console.error('Failed to create ClassCade:', error);
+              alert('Failed to create ClassCade');
+          }
+  };
+  
 
   return (
     <form onSubmit={handleSubmit}>
@@ -100,8 +120,7 @@ export default function CreateClassCade() {
             } />
           <button onClick={(e) => {
             e.preventDefault()
-            if (!teachers.includes(newTeacher) && !students.includes(newStudent) && newStudent) {
-              console.log(teachers.includes(newTeacher))
+            if (!teachers.includes(newTeacher) && !students.includes(newTeacher) && newTeacher) {
               setTeachers([...teachers, newTeacher])
               emailExists(newTeacher, setTeacherAddMessage)}
             setNewTeachers("")
