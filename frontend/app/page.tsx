@@ -15,25 +15,34 @@ interface ClassCade {
 
 export default function Home() {
   const { user, isLoading } = useUser();
-  const [classCades, setClassCades] = useState<ClassCade[]>([]);
+  const [classCadesAsStd, setClassCadesAsStd] = useState<ClassCade[]>([]);
+  const [classCadesAsTch, setClassCadesAsTch] = useState<ClassCade[]>([]);
 
   useEffect(() => {
     if (user) {
-      console.log(user)
       const fetchClassCades = async () => {
         try {
-          const response = await fetch('/api/classcades',
+          const response = await fetch('/api/GetClassCades',
           {
               headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
               },
-              method: "GET",
+              method: "POST",
               body: JSON.stringify({user: user.email})
-          });
-          const data = await response.json();
-          setClassCades(data);
-          console.log(classCades)
+          })
+          .then((res) => res.json())
+          .then(async (res) => {
+            { 
+              const { classCadesAsTeacher, classCadesAsStudent } = res
+              console.log("classCadesAsTeacher: ", classCadesAsTeacher)
+              console.log("classCadesAsStudent: ", classCadesAsStudent)
+              await setClassCadesAsTch(classCadesAsTeacher);
+              await setClassCadesAsStd(classCadesAsStudent)
+            }
+          })
+
+          
         } catch (error) {
           console.error('Failed to fetch ClassCades:', error);
         }
@@ -42,6 +51,7 @@ export default function Home() {
       fetchClassCades();
     }
   }, [user]);
+  
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -51,7 +61,7 @@ export default function Home() {
         <a href="/api/auth/login">Sign in to ClassCade</a>
       ) : (
         <div>
-          {classCades && classCades.map((classCade) => (
+          {classCadesAsTch && classCadesAsTch.map((classCade) => (
             <div
               key={classCade.id}
               style={{ backgroundColor: classCade.css_styles }}
