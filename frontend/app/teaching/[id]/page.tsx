@@ -54,8 +54,8 @@ const page = () => {
             <button onClick={() => setTab('people')}>People</button>
             <button onClick={() => setTab('material')}>Materials/Assessments</button>
         </nav>
-        <div style={{display: tab === "classroom"? "block" : "hidden"}}>
-            {ClassCadeState && 
+        <div>
+            {tab === "classroom" && ClassCadeState && 
                 <div
                 key={ClassCadeState.id}
                 style={{ backgroundColor: ClassCadeState.css_styles }}
@@ -65,6 +65,20 @@ const page = () => {
                 <p>Teachers: {ClassCadeState.teacher_ids}</p>
                 <p>Subject: {ClassCadeState.subject}</p>
                 <p>Room: {ClassCadeState.room}</p>
+                </div>
+            }
+        </div>
+        <div>
+            {tab === "people" && ClassCadeState && 
+                <div>
+                    <h2>Teachers</h2>
+                    <ul>
+                        {ClassCadeState.teacher_ids.split(',').map((teacher) => <li>{teacher}</li>)}
+                    </ul>
+                    <h2>Students</h2>
+                    <ul>
+                        {ClassCadeState.student_ids.split(',').map((student) => <li>{student}</li>)}
+                    </ul>
                 </div>
             }
         </div>
