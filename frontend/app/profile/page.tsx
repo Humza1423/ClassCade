@@ -102,7 +102,7 @@ const Page = () => {
                     <h3>Assessment Type: {assignment.assignment_type}</h3>
                     <h3>Assignment Type: {assignment.assessment_type}</h3>
             </div>)}
-            <form action="http://192.168.2.66:5000/update_stats" method='POST'>
+            <form action="http://192.168.2.66:5000/update_stats" method='POST'> // This is the URL of the backend server. Change 192.168.2.66 to your own IP address. Leave the :5000. It should be http://(your IP address):5000/update_stats
                 <input type="submit" value={'Gaming Time!'}/>
                 <input type="hidden" name='stats' value={JSON.stringify(markState)}/>
             </form>
