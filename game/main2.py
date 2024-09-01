@@ -133,8 +133,8 @@ try:
 
 
     action_defend_btn = Button((255, 90, 0), red, screen_width/3 - 20, 90, 0, 490, 'defend', 20, yellow, 10, "assets/fonts/turok.ttf")
-    plyr1_action_heal_btn = Button((255, 90, 0), red, screen_width/3 - 20, 90, screen_width/3, 490, f'heal ({plyr1_potions} left)', 20, yellow, 10, "assets/fonts/turok.ttf")
-    plyr2_action_heal_btn = Button((255, 90, 0), red, screen_width/3 - 20, 90, screen_width/3, 490, f'heal ({plyr2_potions} left)', 20, yellow, 10, "assets/fonts/turok.ttf")
+    #plyr1_action_heal_btn = Button((255, 90, 0), red, screen_width/3 - 20, 90, screen_width/3, 490, f'heal ({plyr1_potions} left)', 20, yellow, 10, "assets/fonts/turok.ttf")
+    #plyr2_action_heal_btn = Button((255, 90, 0), red, screen_width/3 - 20, 90, screen_width/3, 490, f'heal ({plyr2_potions} left)', 20, yellow, 10, "assets/fonts/turok.ttf")
     action_attack_btn = Button((255, 90, 0), red, screen_width/3 - 20, 90, 2*screen_width/3, 490, 'attack', 20, yellow, 10, "assets/fonts/turok.ttf")
 
     attack1_btn = Button((30, 90, 255), blue, screen_width/2 - 20, 90, 0, 490, 'attack 1', 20, yellow, 10, "assets/fonts/turok.ttf")
