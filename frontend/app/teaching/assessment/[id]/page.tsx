@@ -2,34 +2,35 @@
 import React from 'react'
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { useState, useEffect } from 'react';
-import { ClassCadeMaterial, Assessment, ClassCade } from '@/lib/utils';
+import { StudentAssessment, Assessment, ClassCade } from '@/lib/utils';
 import { useParams } from "next/navigation";
+import Link from 'next/link';
 
 const page = () => {
     const params = useParams();
-    const { user, isLoading } = useUser();
-    const [AssessmentState, setAssessmentState] = useState<Assessment | null>(null);
+    const { user } = useUser();
+    const [AssessmentsState, setAssessmentsState] = useState<StudentAssessment[] | null>(null);
     const { id } = params;
 
   useEffect(() => {
     if (user) {
       const fetchClassCade = async () => {
         try {
-          const response = await fetch(`/api/get_assessment`,
+          const response = await fetch(`/api/get_student_assessment`,
           {
               headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
               },
               method: "POST",
-                body: JSON.stringify({condition: `id`, value: id})
+                body: JSON.stringify({condition: `assessment_id`, value: id})
           })
           .then((res) => res.json())
           .then(async (res) => {
             { 
               const { Assessment } = res
-              await setAssessmentState(Assessment[0])
-              console.log(AssessmentState)
+              await setAssessmentsState(Assessment)
+              console.log(AssessmentsState)
             }
           })
           
@@ -42,15 +43,15 @@ const page = () => {
     }
   }, [user]);
 
-  if (!AssessmentState?.classcade_id || !user?.email) return <div>Loading</div>;
   return (
     <main>
-        <form action={`/submit_assessment/${id}`} method='POST'>
-            <textarea name="submissions" placeholder='submissions' />
-            <input type="submit" value="Submit" />
-            <input type="hidden" value={AssessmentState.classcade_id} name='classId'/>
-            <input type="hidden" value={user.email} name='email'/>
-        </form>
+        {AssessmentsState && AssessmentsState.map((assessment) => <div>
+          <Link href={`/teaching/marking/${assessment.id}`}>
+            <h2>Student: {assessment.student_email}</h2>
+            <p>{assessment.submission}</p>
+            <p>Date Submitted: {assessment.submission_date}</p>
+          </Link>
+        </div>)}
     </main>
   )
 }

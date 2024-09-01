@@ -32,6 +32,15 @@ export interface Assessment {
     classcade_id: number;
 }
 
+export interface StudentAssessment {
+    id: number;
+    student_email: string;
+    assessment_id: number;
+    mark: number | null;
+    submission: string;
+    submission_date: string;
+}
+
 export const emailExists = async (email: string, setMessage: (value: string) => void) => {
     try {
         const response = await fetch("/api/emailexists", {
