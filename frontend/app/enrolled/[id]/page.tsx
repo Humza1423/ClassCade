@@ -4,8 +4,8 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { useState, useEffect } from 'react';
 import { ClassCadeMaterial, Assessment, ClassCade } from '@/lib/utils';
 import { useParams } from "next/navigation";
-import styles from './teaching.module.css';
-import Material from '@/app/components/Material';
+import styles from './enrolled.module.css';
+import MaterialStudent from '@/app/components/MaterialStudent';
 
 const page = () => {
     const params = useParams();
@@ -69,7 +69,7 @@ const page = () => {
                 <p>Room: {ClassCadeState.room}</p>
                 </div>
                 <input type="text" placeholder='Add Comment'/>
-                <Material ClassCadeMaterialState={ClassCadeMaterialState} Assessment={AssessmentState}/>
+                <MaterialStudent ClassCadeMaterialState={ClassCadeMaterialState} Assessment={AssessmentState}/>
             </div>
         }
     
@@ -85,7 +85,7 @@ const page = () => {
                 </ul>
             </div>
         }
-        {tab === "material" && <Material ClassCadeMaterialState={ClassCadeMaterialState} Assessment={AssessmentState}/>}
+        {tab === "material" && <MaterialStudent ClassCadeMaterialState={ClassCadeMaterialState} Assessment={AssessmentState}/>}
     </main>
   )
 }

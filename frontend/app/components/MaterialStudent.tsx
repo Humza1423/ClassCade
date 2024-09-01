@@ -13,25 +13,27 @@ const Material = ({ ClassCadeMaterialState, Assessment }: { ClassCadeMaterialSta
         <div>
             {combinedData.map((item) => { 
                 const isAssessment = 'assessment_type' in item;
+                console.log(item.id)
                 return (isAssessment? 
-                    <Link href={`/teaching/assessment/${item.id}`}>
-                        <div key={item.id}>
-                            <h3>Assessment</h3>
-                            <h4>{item.title}</h4>
-                            <h6>{item.date_created}</h6>
-                            <p>{item.description}</p>
-                            {item.links && <p>{item.links}</p>}
-                        </div>
-                    </Link>
-                    :
+                <Link href={`/enrolled/assessment/${item.id}`}>
                     <div key={item.id}>
-                        <h3>Material</h3>
+                        <h3>Assessment</h3>
                         <h4>{item.title}</h4>
                         <h6>{item.date_created}</h6>
                         <p>{item.description}</p>
                         {item.links && <p>{item.links}</p>}
                     </div>
-    
+                </Link>
+                :
+                <div key={item.id}>
+                    <h3>Material</h3>
+                    <h4>{item.title}</h4>
+                    <h6>{item.date_created}</h6>
+                    <p>{item.description}</p>
+                    {item.links && <p>{item.links}</p>}
+                </div>
+
+                
             )})}
         </div>
     ) : (

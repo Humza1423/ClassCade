@@ -6,6 +6,7 @@ import { ClassCadeMaterial, Assessment, ClassCade } from '@/lib/utils';
 import { useParams } from "next/navigation";
 import styles from './teaching.module.css';
 import Material from '@/app/components/Material';
+import { emailExists } from '@/lib/utils';
 
 const page = () => {
     const params = useParams();
@@ -14,6 +15,10 @@ const page = () => {
     const [ClassCadeMaterialState, setClassCadeMaterial] = useState<ClassCadeMaterial[] | null>(null);
     const [AssessmentState, setAssessmentState] = useState<Assessment[] | null>(null);
     const [tab, setTab] = useState<string>("classroom");
+    const [newTeacher, setNewTeacher] = useState<string>('');
+    const [teacherAddMessage, setTeacherAddMessage] = useState<string>('');
+    const [newStudent, setNewStudent] = useState<string>('');
+    const [studentAddMessage, setStudentAddMessage] = useState<string>('');
     const { id } = params;
 
   useEffect(() => {
@@ -48,6 +53,39 @@ const page = () => {
       fetchClassCade();
     }
   }, [user]);
+
+
+  const handleAddTeacher = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const exists = await emailExists(newTeacher, setTeacherAddMessage);
+    if (exists) {
+        await fetch(`/api/add_teacher/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ teacher: newTeacher }),
+        });
+        setNewTeacher('');
+        setTeacherAddMessage('Teacher added successfully');
+    }
+};
+
+const handleAddStudent = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const exists = await emailExists(newStudent, setStudentAddMessage);
+    if (exists) {
+        await fetch(`/api/add_student/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ student: newStudent }),
+        });
+        setNewStudent('');
+        setStudentAddMessage('Student added successfully');
+    }
+};
 
   return (
     <main>
@@ -104,12 +142,34 @@ const page = () => {
             <div>
                 <h2>Teachers</h2>
                 <ul>
-                    {ClassCadeState.teacher_ids.split(',').map((teacher) => <li>{teacher}</li>)}
+                    {ClassCadeState.teacher_ids.split(',').map((teacher) => <li key={teacher}>{teacher}</li>)}
                 </ul>
                 <h2>Students</h2>
                 <ul>
-                    {ClassCadeState.student_ids.split(',').map((student) => <li>{student}</li>)}
+                    {ClassCadeState.student_ids.split(',').map((student) => <li key={student}>{student}</li>)}
                 </ul>
+                <form onSubmit={handleAddTeacher}>
+                    <input
+                        type="text"
+                        value={newTeacher}
+                        onChange={(e) => setNewTeacher(e.target.value)}
+                        placeholder="Add Teacher Email"
+                        required
+                    />
+                    <button type="submit">Add Teacher</button>
+                    <p>{teacherAddMessage}</p>
+                </form>
+                <form onSubmit={handleAddStudent}>
+                    <input
+                        type="text"
+                        value={newStudent}
+                        onChange={(e) => setNewStudent(e.target.value)}
+                        placeholder="Add Student Email"
+                        required
+                    />
+                    <button type="submit">Add Student</button>
+                    <p>{studentAddMessage}</p>
+                </form>
             </div>
         }
         {tab === "material" && <Material ClassCadeMaterialState={ClassCadeMaterialState} Assessment={AssessmentState}/>}
