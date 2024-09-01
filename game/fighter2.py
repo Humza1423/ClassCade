@@ -53,6 +53,7 @@ class Fighter():
         # get keypresses
         key = pygame.key.get_pressed()
 
+    
 
         # can only perform other actions if not currently attacking
         if self.attacking == False and self.alive:
@@ -76,7 +77,8 @@ class Fighter():
                         self.attack_type = 1
                     if key[pygame.K_t]:
                         self.attack_type = 2
-                
+
+                    
                 # check player 2 controls
             if self.player == 2:
                 # movement
@@ -98,7 +100,11 @@ class Fighter():
                     if key[pygame.K_k]:
                         self.attack_type = 2
 
-        
+        if key[pygame.K_q]:
+            if self.attack_cooldown == 0:
+                self.defending = True
+                self.attack_cooldown = 50
+
         # apply gravity
         self.vel_y += gravity
         dy += self.vel_y
@@ -158,7 +164,7 @@ class Fighter():
             self.update_action(1)
         else:
             self.update_action(0)
-
+   
 
         animation_cooldown = 50
 
@@ -188,28 +194,27 @@ class Fighter():
         
 
     # define attack
-    def attack(self, target):
-        if self.attack_cooldown == 0:
-            self.attacking = True
-            self.attack_sound.play()
-            attacking_rect = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y, 2 * self.rect.width, self.rect.height)
-            if attacking_rect.colliderect(target.rect):
-                target.health -= self.dmg
-                target.hit = True
+    #def attack(self, target):
+    #    if self.attack_cooldown == 0:
+    #        self.attacking = True
+    #        self.attack_sound.play()
+    #        attacking_rect = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y, 2 * self.rect.width, self.rect.height)
+    #        if attacking_rect.colliderect(target.rect):
+    #            target.health -= self.dmg
+    #            target.hit = True
 
-    # def attack(self, target, attack_type):
-    #     self.attacking = True
-    #     self.attack_sound.play()
-    #     if not target.defending:
-    #         if attack_type == 1:
-    #             target.health -= 10
-    #         elif attack_type == 2:
-    #             target.health -= 20
-    #     else:
-    #         self.shield_sound.play()
-    #     target.hit = True
-    #     target.defending = False
-    #     print(self.player)
+    def attack(self, target):
+         self.attacking = True
+         self.attack_sound.play()
+         attacking_rect = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flip), self.rect.y, 2 * self.rect.width, self.rect.height)
+         if attacking_rect.colliderect(target.rect):
+            if not target.defending:
+                    target.health -= self.dmg
+                    target.hit = True
+            else:
+                self.shield_sound.play()
+         target.defending = False
+         print(self.player)
     
     def update_action(self, new_action):
         if new_action != self.action:
