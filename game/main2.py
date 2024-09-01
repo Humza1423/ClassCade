@@ -2,6 +2,7 @@ import pygame
 from pygame import mixer
 from fighter2 import Fighter, Button, Effect
 from stats import stats
+from bot import moveAI
 try:
     stats_list = stats()
 
@@ -311,7 +312,8 @@ try:
                 #                 plyr2_action = ''
 
             Fighter1.move(screen_width, screen_height, Fighter2)
-            Fighter2.move(screen_width, screen_height, Fighter1)
+            moveAI(Fighter2, Fighter2.rect.x, Fighter1.rect.x, screen_width, screen_height, Fighter1)
+            #Fighter2.move(screen_width, screen_height, Fighter1)
         else:
             # display count timer
             draw_text(str(intro_count), count_font, red, screen_width/2, screen_height/3)

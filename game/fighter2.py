@@ -43,6 +43,7 @@ class Fighter():
         return animation_list
 
     def move(self, screen_width, screen_height, target):
+        self.gravity = 2
         gravity = 2
         dx = 0
         dy = 0

@@ -1,6 +1,6 @@
 def stats():
     dmg1 = 5
-    dmg2 = 3
+    dmg2 = 2
     hp1 = 10
     hp2 = 15
     speed1 = 8
