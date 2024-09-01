@@ -36,7 +36,7 @@ def moveAI(char, pos, opos, screen_width, screen_height, target):
                 char.attack(target)
                 char.attacking = True
                 char.attack_type = 1
-                char.attack_cooldown = 40
+                char.attack_cooldown = 50
         if char.attack_cooldown > 0:
                 char.attack_cooldown -= 1
         char.update()
