@@ -16,7 +16,7 @@ export async function POST(request: Request) {
         // Use a parameterized query to prevent SQL injection
         const query = `SELECT * FROM Assessment WHERE ${condition} IN (${placeholders})`;
         const [assessments] = await db.query(query, values);
-        console.log(assessments)
+        console.log('multipleargs:',assessments)
 
         console.log(assessments);
         return NextResponse.json({ assessments });

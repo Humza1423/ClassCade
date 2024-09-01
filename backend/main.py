@@ -92,8 +92,8 @@ def calculate_stat_effects(assessments):
     player_stats = {'health': 0, 'strength': 0, 'speed': 0, 'defense': 0}
 
     for assessment in assessments:
-        assessment_type = assessment.get('assessment_type')
-        assignment_type = assessment.get('assignment_type')
+        assessment_type = assessment['assessment_type']
+        assignment_type = assessment['assignment_type']
         if assessment_type in ASSESSMENT_EFFECTS and assignment_type in ASSESSMENT_EFFECTS[assessment_type]:
             effects = ASSESSMENT_EFFECTS[assessment_type][assignment_type]
             player_stats['health'] += effects.get('health', 0)
@@ -106,13 +106,15 @@ def calculate_stat_effects(assessments):
 
 @app.route('/update_stats', methods=['POST'])
 def update_stats():
-    data = request.json
-    assessments = data.get('assessments', [])
-    updated_stats = calculate_stat_effects(assessments)
+    data = request.form['stats']
+    print(data)
+    data = json.loads(data)
+    print('DATAINJSON',data)
+    updated_stats = calculate_stat_effects(data)
     return jsonify(updated_stats)
 
 
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='192.168.2.66', port=5000, debug=True, threaded=False)
