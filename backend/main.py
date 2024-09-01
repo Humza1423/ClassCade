@@ -117,4 +117,4 @@ def update_stats():
 
 
 if __name__ == '__main__':
-    app.run(host='192.168.2.66', port=5000, debug=True, threaded=False)
+    app.run(host='192.168.2.66', port=5000, debug=True, threaded=False) # Change host to your local IP address
