@@ -31,6 +31,10 @@ class Fighter():
         self.health = health
         self.speed = speed
 
+        self.max_health = health  # Assuming max_health is the initial health
+        self.heal_limit = 3       # Maximum number of times a fighter can heal
+        self.heal_count = 0       # Current number of heals used
+
     def load_images(self, sprite_sheet, animation_steps):
         # extract images from spritesheet
         animation_list = []
@@ -76,7 +80,10 @@ class Fighter():
                         self.attack_type = 1
                     if key[pygame.K_t]:
                         self.attack_type = 2
-                
+                        
+                if key[pygame.K_h]:
+                    self.heal(20)  # Heal by 20 points
+                    
                 # check player 2 controls
             if self.player == 2:
                 # movement
@@ -158,6 +165,13 @@ class Fighter():
             self.update_action(1)
         else:
             self.update_action(0)
+    def heal(self, amount):
+        if self.alive and self.heal_count < self.heal_limit:
+            self.health += amount
+            if self.health > self.max_health:  # Cap the health at max_health
+                self.health = self.max_health
+            self.heal_count += 1  # Increment heal count
+            self.update()  # Update state after healing
 
 
         animation_cooldown = 50
