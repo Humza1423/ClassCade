@@ -10,7 +10,7 @@ import os
 
 app = Flask(__name__)
 
-# Replace this with your actual Gemini API key
+#Gemini API key
 GEMINI_API_KEY = 'AIzaSyDExY3rKgqPGwxZRrWWXn_qVBoZ38vdmv4'
 
 def generate_questions_from_gemini(text):
@@ -63,6 +63,30 @@ def generate_quiz():
     quiz_questions = generate_questions_from_gemini(full_text)
 
     return jsonify({"quiz": quiz_questions})
+
+# Define the effects of assessments on player stats
+ASSESSMENT_EFFECTS = {
+    'summative': {
+        'project': {'health': 10, 'strength': 20, 'speed': 10, 'defense': 5},
+        'lab': {'health': 5, 'strength': 10, 'speed': 15, 'defense': 10},
+        'essay': {'health': 8, 'strength': 15, 'speed': 5, 'defense': 7},
+        'test': {'health': 7, 'strength': 18, 'speed': 8, 'defense': 6},
+        'exam': {'health': 12, 'strength': 25, 'speed': 9, 'defense': 8},
+        'quiz': {'health': 3, 'strength': 5, 'speed': 7, 'defense': 2},
+        'presentation': {'health': 10, 'strength': 10, 'speed': 10, 'defense': 10},
+        'other': {'health': 5, 'strength': 5, 'speed': 5, 'defense': 5},
+    },
+    'formative': {
+        'project': {'health': 5, 'strength': 10, 'speed': 5, 'defense': 5},
+        'lab': {'health': 2, 'strength': 5, 'speed': 10, 'defense': 5},
+        'essay': {'health': 4, 'strength': 8, 'speed': 3, 'defense': 4},
+        'test': {'health': 3, 'strength': 9, 'speed': 4, 'defense': 3},
+        'exam': {'health': 6, 'strength': 12, 'speed': 5, 'defense': 5},
+        'quiz': {'health': 2, 'strength': 3, 'speed': 4, 'defense': 2},
+        'presentation': {'health': 5, 'strength': 5, 'speed': 5, 'defense': 5},
+        'other': {'health': 3, 'strength': 3, 'speed': 3, 'defense': 3},
+    }
+}
 
 if __name__ == '__main__':
     app.run(debug=True)
