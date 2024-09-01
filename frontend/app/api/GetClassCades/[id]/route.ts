@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 
 export async function GET(request: Request, context: { params: { id: number } }) {
     const { id } = context.params;
+    
 
     try {
         // Query for ClassCades where the user is a teacher
@@ -14,26 +15,43 @@ export async function GET(request: Request, context: { params: { id: number } })
 
         console.log('class:', classCade);
 
-        try {
-            // Query for ClassCadeMaterials where the user is a teacher
-            const [classCadeMaterial] = await db.query(`SELECT * FROM ClassCadeMaterial
+        const [classCadeMaterial] = await db.query(`SELECT * FROM ClassCadeMaterial
         WHERE classcade_id = ${id};`);
 
-            console.log(classCadeMaterial);
+        console.log(classCadeMaterial);
 
-            return NextResponse.json({ classCade, classCadeMaterial });
-        } catch (materialError) {
-            if (materialError) {
-                return NextResponse.json({ classCade: classCade, message: 'This ClassCade has no material (table does not exist)' });
-            } else {
-                console.error(materialError);
-                return NextResponse.json({ error: 'Failed to fetch ClassCadeMaterials' }, { status: 500 });
-            }
+        const [Assessments] = await db.query(`SELECT * FROM Assessment
+        WHERE classcade_id = ${id};`);
+
+        console.log(Assessments);
+
+        // try {
+        //     // Query for ClassCadeMaterials where the user is a teacher
+        //     const [classCadeMaterial] = await db.query(`SELECT * FROM ClassCadeMaterial
+        // WHERE classcade_id = ${id};`);
+
+        //     console.log(classCadeMaterial);
+
+        //     // return NextResponse.json({ classCade, classCadeMaterial });
+        // } catch (materialError) {
+        //     // if (materialError) {
+        //         // return NextResponse.json({ classCade: classCade, message: 'This ClassCade has no material (table does not exist)' });
+        //     // } else {
+        //     //     console.error(materialError);
+        //     //     return NextResponse.json({ error: 'Failed to fetch ClassCadeMaterials' }, { status: 500 });
+        //     // }
+        // }
+        // try {
+        //     // Query for ClassCadeMaterials where the user is a teacher
+        //     const [Assessments] = await db.query(`SELECT * FROM Assessment
+        // WHERE classcade_id = ${id};`);
+
+        //     console.log(Assessments);
+        return NextResponse.json({ classCade, classCadeMaterial, Assessments });
+        } catch (error) {
+            console.error(error);
+            return NextResponse.json({ error: 'Failed to fetch ClassCades' }, { status: 500 });
         }
         
         
-    } catch (error) {
-        console.error(error);
-        return NextResponse.json({ error: 'Failed to fetch ClassCades' }, { status: 500 });
-    }
-}
+    } 

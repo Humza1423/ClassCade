@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { redirect } from 'next/navigation';
+import { emailExists } from '@/lib/utils';
 
 export default function CreateClassCade() {
   const {user, error, isLoading} = useUser()
@@ -22,34 +23,6 @@ export default function CreateClassCade() {
   if (!user) {
     redirect('/')
 }
-    const emailExists = async (email: string, setMessage: (value: string) => void) => {
-        try {
-            const response = await fetch("/api/emailexists", {
-                method: "POST",
-                headers: {
-                    'Content-Type': "application/json"
-                },
-                body: JSON.stringify({email})
-            })
-            const { verifiedMessage, unverifiedMessage, error } = await response.json()
-            if (verifiedMessage) {
-                console.log(verifiedMessage)
-                setMessage(verifiedMessage)
-                return true
-            }  else if (unverifiedMessage) {
-                setMessage(unverifiedMessage)
-                console.log(unverifiedMessage)
-                return false
-            }  else if (error) {
-              setMessage(error.message)
-              return false
-          }
-        } catch (error) {
-            console.log(error)
-            setMessage("An error occured")
-            return false
-        }
-    }
     const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
           try {

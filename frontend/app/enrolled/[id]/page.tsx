@@ -69,33 +69,6 @@ const page = () => {
                 <p>Room: {ClassCadeState.room}</p>
                 </div>
                 <input type="text" placeholder='Add Comment'/>
-                <form action={`/api/new_material/${id}`} method='POST'>
-                    <input type="text" placeholder='Title' name='Title'/>
-                    <textarea placeholder='Description' name='Description'/>
-                    <input type="text" placeholder='Links' name='Links'/>
-                    <input type="submit" value="Add Material"/>
-                </form>
-                <form action={`/api/new_assessment/${id}`} method='POST'>
-                    <input type="text" placeholder='Title' name='Title' required />
-                    <textarea placeholder='Description' name='Description' required></textarea>
-                    <input type="text" placeholder='Links' name='Links' />
-                    <input type="date" placeholder='Due Date' name='due_date' required />
-                    <select name='assessment_type' required>
-                        <option value='summative'>Summative</option>
-                        <option value='formative'>Formative</option>
-                    </select>
-                    <select name='assignment_type' required>
-                        <option value='project'>Project</option>
-                        <option value='lab'>Lab</option>
-                        <option value='essay'>Essay</option>
-                        <option value='test'>Test</option>
-                        <option value='exam'>Exam</option>
-                        <option value='quiz'>Quiz</option>
-                        <option value='presentation'>Presentation</option>
-                        <option value='other'>Other</option>
-                    </select>
-                    <input type="submit" value="Add Assignment" />
-                </form>
                 <Material ClassCadeMaterialState={ClassCadeMaterialState} Assessment={AssessmentState}/>
             </div>
         }
