@@ -11,7 +11,7 @@ import os
 app = Flask(__name__)
 
 #Gemini API key
-GEMINI_API_KEY = 'AIzaSyDExY3rKgqPGwxZRrWWXn_qVBoZ38vdmv4'
+GEMINI_API_KEY = '<Key>'
 
 def generate_questions_from_gemini(text):
     url = "https://gemini.googleapis.com/v1/documents:generateQuestions"  # Example API endpoint
